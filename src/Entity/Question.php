@@ -4,60 +4,26 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
- */
 class Question
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $image;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
     private $description;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
     private $position;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="questions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $test;
+    private $randomized;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="question", orphanRemoval=true)
-     */
+    private $id;
+
     private $answers;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $randomized;
+    private $test;
 
     public function __construct()
     {
         $this->answers = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getImage(): ?string
@@ -96,16 +62,21 @@ class Question
         return $this;
     }
 
-    public function getTest(): ?Test
+    public function getRandomized(): ?bool
     {
-        return $this->test;
+        return $this->randomized;
     }
 
-    public function setTest(?Test $test): self
+    public function setRandomized(bool $randomized): self
     {
-        $this->test = $test;
+        $this->randomized = $randomized;
 
         return $this;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -139,14 +110,14 @@ class Question
         return $this;
     }
 
-    public function getRandomized(): ?bool
+    public function getTest(): ?Test
     {
-        return $this->randomized;
+        return $this->test;
     }
 
-    public function setRandomized(bool $randomized): self
+    public function setTest(?Test $test): self
     {
-        $this->randomized = $randomized;
+        $this->test = $test;
 
         return $this;
     }

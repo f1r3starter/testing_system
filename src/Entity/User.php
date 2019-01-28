@@ -2,60 +2,23 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- */
 class User
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $username;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $password;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $salt;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $type;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $fullname;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
     private $birthdate;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $photo;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    private $id;
 
     public function getUsername(): ?string
     {
@@ -139,5 +102,10 @@ class User
         $this->photo = $photo;
 
         return $this;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 }

@@ -4,49 +4,25 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TestRepository")
- */
 class Test
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $name;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
     private $description;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="test", orphanRemoval=true)
-     */
+    private $randomized;
+
+    private $id;
+
     private $questions;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $randomized;
+    private $groups;
 
     public function __construct()
     {
         $this->questions = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
+        $this->groups = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -71,6 +47,23 @@ class Test
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getRandomized(): ?bool
+    {
+        return $this->randomized;
+    }
+
+    public function setRandomized(bool $randomized): self
+    {
+        $this->randomized = $randomized;
+
+        return $this;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -104,14 +97,28 @@ class Test
         return $this;
     }
 
-    public function getRandomized(): ?bool
+    /**
+     * @return Collection|TestGroup[]
+     */
+    public function getGroups(): Collection
     {
-        return $this->randomized;
+        return $this->groups;
     }
 
-    public function setRandomized(bool $randomized): self
+    public function addGroup(TestGroup $group): self
     {
-        $this->randomized = $randomized;
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(TestGroup $group): self
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+        }
 
         return $this;
     }
