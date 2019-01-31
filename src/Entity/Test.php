@@ -19,10 +19,13 @@ class Test
 
     private $groups;
 
+    private $users;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
         $this->groups = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -118,6 +121,32 @@ class Test
     {
         if ($this->groups->contains($group)) {
             $this->groups->removeElement($group);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
         }
 
         return $this;

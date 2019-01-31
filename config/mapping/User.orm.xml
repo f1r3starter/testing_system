@@ -9,5 +9,6 @@
     <field name="fullname" type="string" column="fullname" length="255" precision="0" scale="0" nullable="false"/>
     <field name="birthdate" type="date" column="birthdate" precision="0" scale="0" nullable="true"/>
     <field name="photo" type="string" column="photo" length="255" precision="0" scale="0" nullable="true"/>
+    <many-to-many field="tests" target-entity="App\Entity\Test" />
   </entity>
 </doctrine-mapping>
