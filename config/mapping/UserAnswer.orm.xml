@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity repository-class="App\Repository\UserAnswerRepository" name="App\Entity\UserAnswer" table="question">
+        <many-to-one field="question" target-entity="App\Entity\Question" inversed-by="user_answers" fetch="LAZY">
+            <join-columns>
+                <join-column name="question_id" referenced-column-name="id" nullable="false"/>
+            </join-columns>
+        </many-to-one>
+        <many-to-one field="answer" target-entity="App\Entity\Answer" inversed-by="user_answers" fetch="LAZY">
+            <join-columns>
+                <join-column name="answer_id" referenced-column-name="id" nullable="false"/>
+            </join-columns>
+        </many-to-one>
+        <many-to-one field="user" target-entity="App\Entity\User" inversed-by="answer_id" fetch="LAZY">
+            <join-columns>
+                <join-column name="user_id" referenced-column-name="id" nullable="false"/>
+            </join-columns>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>
