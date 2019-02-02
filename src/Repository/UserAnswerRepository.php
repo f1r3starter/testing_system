@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Test;
+use App\Entity\User;
 use App\Entity\UserAnswer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -17,6 +19,25 @@ class UserAnswerRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, UserAnswer::class);
+    }
+
+    /**
+     * @param User $user
+     * @param Test $test
+     *
+     * @return self[]
+     */
+    public function getAnswerList(User $user, Test $test): array
+    {
+        return $this->createQueryBuilder('ua')
+            ->join('ua.answer', 'a')
+            ->join('ua.question', 'q')
+            ->where('ua.user = :user')
+            ->andWhere('q.test = :test')
+            ->setParameter('user', $user)
+            ->setParameter('test', $test)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**
