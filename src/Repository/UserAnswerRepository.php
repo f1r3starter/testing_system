@@ -6,6 +6,7 @@ use App\Entity\Test;
 use App\Entity\User;
 use App\Entity\UserAnswer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -29,15 +30,36 @@ class UserAnswerRepository extends ServiceEntityRepository
      */
     public function getAnswerList(User $user, Test $test): array
     {
-        return $this->createQueryBuilder('ua')
-            ->join('ua.answer', 'a')
-            ->join('ua.question', 'q')
+        return $this->joinAnswerAndQuestion($this->getQueryBuilder())
             ->where('ua.user = :user')
             ->andWhere('q.test = :test')
             ->setParameter('user', $user)
             ->setParameter('test', $test)
             ->getQuery()
             ->getResult();
+    }
+
+    public function getUserResults(User $user)
+    {
+        return $this->joinAnswerAndQuestion($this->getQueryBuilder())
+            ->innerJoin('ua.user', 'u')
+            ->innerJoin('q.test', 'q')
+            ->andWhere('u.id = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    private function getQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('ua');
+    }
+
+    private function joinAnswerAndQuestion(QueryBuilder $qb): QueryBuilder
+    {
+        return $qb
+            ->innerJoin('ua.answer', 'a')
+            ->innerJoin('ua.question', 'q');
     }
 
     // /**
