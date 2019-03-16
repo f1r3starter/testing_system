@@ -12,6 +12,9 @@ class TestController extends AbstractController
      */
     private $testRepository;
 
+    /**
+     * @param TestRepository $testRepository
+     */
     public function __construct(TestRepository $testRepository)
     {
 
