@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Domain\Model\Test;
-
+namespace App\Domain\Test\Model;
+ 
 class TestGroup {
 
 }
